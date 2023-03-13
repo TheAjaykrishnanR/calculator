@@ -27,8 +27,8 @@ int main() {
 	//for(string i:parsedNums) cout<<i<<"\n";
 	//for(string i:parsedOps) cout<<i<<"\n";
 		 
-	/*cout<<"\nANS: "<<*/calc(parsedNums, parsedOps);//<<"\n";
-	
+	cout<<"\nANS: "<<calc(parsedNums, parsedOps)<<"\n";
+
 }
 
 tuple<vector<string>, vector<string>> parser(string& line) {
@@ -78,19 +78,25 @@ int calc(vector<string>& parsedNums, vector<string>& parsedOps) {
 	float result = stoi(parsedNums[0]);
 	
 	for(int i = 0; i < parsedOps.size(); i++) {
-		bool test = parsedOps[i][0] == '+';
+		
 		switch(parsedOps[i][0]) { /* parsedOps[i] is a string but switch() needs char */
 			
 			case '+':
 				result+=stoi(parsedNums[i+1]);
-				//cout<<"plus"<<endl;
+				break;
 			case '-':
 				result-=stoi(parsedNums[i+1]);
-				//cout<<"minus"<<endl;
-			
-		}
-		cout<<test<<"\n";
+				break;
+			case '*':
+			case 'x':
+				result*=stoi(parsedNums[i+1]);
+				break;
+			case '/':
+				result/=stoi(parsedNums[i+1]);
+				break;	
+		}	
 	}
 
 	return result;
 }
+
