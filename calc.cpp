@@ -11,13 +11,15 @@
 #include <algorithm>
 #include <string>
 #include <tuple>
+#include <math.h>
 
 using namespace std;
 
 int main() {
 
 	tuple<vector<string>, vector<string>> parser(string&);
-	int calc(vector<string>&, vector<string>&);
+	float calc(vector<string>&, vector<string>&);
+
 	cout<<"WELCOME TO MY CALCULATOR, ENTER THE MATH EXPRESSION TO COMPUTE BELOW :"<<"\n";
 	string expLine;
 	cin>>expLine;
@@ -73,30 +75,71 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 	return {parsedNums, parsedOps};
 }
 
-int calc(vector<string>& parsedNums, vector<string>& parsedOps) {
+float calc(vector<string>& parsedNums, vector<string>& parsedOps) {
 
-	float result = stoi(parsedNums[0]);
-	
-	for(int i = 0; i < parsedOps.size(); i++) {
-		
-		switch(parsedOps[i][0]) { /* parsedOps[i] is a string but switch() needs char */
-			
-			case '+':
-				result+=stoi(parsedNums[i+1]);
-				break;
-			case '-':
-				result-=stoi(parsedNums[i+1]);
-				break;
-			case '*':
-			case 'x':
-				result*=stoi(parsedNums[i+1]);
-				break;
-			case '/':
-				result/=stoi(parsedNums[i+1]);
-				break;	
-		}	
+	vector<string> bodmas = {"/", "*", "+", "-"};
+	tuple<int, int> NNN(vector<float>&, int&);
+	vector<float> floatNums;
+	for(string i:parsedNums) floatNums.push_back(stof(i));
+	float f = nan("0");
+
+	for(string i:bodmas) {
+		for(int j = 0; j < parsedOps.size(); j++) {
+			if(parsedOps[j] == i) {
+				switch(i[0]) {
+					case '+':
+					{
+						auto [leftNear, rightNear] = NNN(floatNums, j);
+						floatNums[leftNear]+=floatNums[rightNear];
+						floatNums[rightNear] = f;
+						break;
+					}
+						
+					case '-':
+					{
+						auto [leftNear, rightNear] = NNN(floatNums, j);
+						floatNums[leftNear]-=floatNums[rightNear];
+						floatNums[rightNear] = f;
+						break;
+					}
+					case '*':
+					{
+						auto [leftNear, rightNear] = NNN(floatNums, j);
+						floatNums[leftNear]*=floatNums[rightNear];
+						floatNums[rightNear] = f;
+						break;
+					}
+					case '/':
+					{
+						auto [leftNear, rightNear] = NNN(floatNums, j);
+						floatNums[leftNear]/=floatNums[rightNear];
+						floatNums[rightNear] = f;
+						break;
+					}
+						
+				}
+			}
+		}
 	}
 
-	return result;
-}
+	return floatNums[0];
 
+}	
+
+tuple<int, int> NNN(vector<float>& floatNums, int& pos) { /* Not-NaN-Neighbour Finder */
+
+	int leftNear = 0;
+
+	int rightNear = floatNums.size() - 1;
+
+	for(int i = 0; i <= pos; i++) {
+		if(!isnan(floatNums[i]) && i > leftNear) leftNear = i;
+	}
+
+	for(int i = floatNums.size() - 1; i > pos; i--) {
+		if(!isnan(floatNums[i]) && i < rightNear) rightNear = i;
+	}
+
+	return {leftNear, rightNear};
+
+}
