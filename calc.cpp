@@ -25,9 +25,6 @@ int main() {
 	cin>>expLine;
 
 	auto [parsedNums, parsedOps] = parser(expLine);
-
-	//for(string i:parsedNums) cout<<i<<"\n";
-	//for(string i:parsedOps) cout<<i<<"\n";
 		 
 	cout<<"\nANS: "<<calc(parsedNums, parsedOps)<<"\n";
 
@@ -39,8 +36,6 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 	vector<string> parsedOps;
 	vector<string> mathOperations = {"+","-", "*", "x", "/", "^", "%", "(", ")"};
 	string numCollector = "";
-
-	// int j = 0, k = 0;
 
 	for(int i = 0; i < line.length(); i++) {
 
@@ -60,8 +55,6 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 			Hitting a non digit character.
 			string() is used to convert line[i] which is a char to a string so that it can be compared with another string.
 		*/
-			//parsedNums[j++]=numCollector;
-			//parsedOps[k++]=line[i];
 			parsedNums.push_back(numCollector);
 			parsedOps.push_back(string(1, line[i]));
 			numCollector="";	
@@ -69,9 +62,6 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 		
 	}
 
-	//for(string i:parsedNums) cout<<i<<"\n";
-	//for(string i:parsedOps) cout<<i<<"\n";
-	
 	return {parsedNums, parsedOps};
 }
 
