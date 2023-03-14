@@ -34,7 +34,7 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 
 	vector<string> parsedNums;
 	vector<string> parsedOps;
-	vector<string> mathOperations = {"+","-", "*", "x", "/", "^", "%", "(", ")"};
+	vector<string> mathOperations = {"+", "-", "*", "x", "/", "^", "%", "(", ")"};
 	string numCollector = "";
 
 	for(int i = 0; i < line.length(); i++) {
@@ -45,7 +45,6 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 
 		else if(i == (line.length()-1)) {
 			numCollector+=line[i];
-			//parsedNums[j]=numCollector;
 			parsedNums.push_back(numCollector);
 		}
 
