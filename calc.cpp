@@ -34,7 +34,7 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 
 	vector<string> parsedNums;
 	vector<string> parsedOps;
-	vector<string> mathOperations = {"+", "-", "*", "x", "/", "^", "%", "(", ")"};
+	vector<string> mathOperations = {"+", "-", "*", "x", "/", "^", "%", "(", ")", "."};
 	string numCollector = "";
 
 	for(int i = 0; i < line.length(); i++) {
@@ -48,7 +48,7 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 			parsedNums.push_back(numCollector);
 		}
 
-		else if (find(mathOperations.begin(), mathOperations.end(), string(1, line[i])) != mathOperations.end()) { 
+		else if(find(mathOperations.begin(), mathOperations.end(), string(1, line[i])) != mathOperations.end() && string(1, line[i]) != ".") { 
 
 		/*
 			Hitting a non digit character.
@@ -57,6 +57,10 @@ tuple<vector<string>, vector<string>> parser(string& line) {
 			parsedNums.push_back(numCollector);
 			parsedOps.push_back(string(1, line[i]));
 			numCollector="";	
+		}
+		
+		else if(string(1, line[i]) == ".")  {
+			numCollector+=".";
 		}
 		
 	}
