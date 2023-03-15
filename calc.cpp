@@ -22,7 +22,7 @@ int main() {
 
 	cout<<"WELCOME TO MY CALCULATOR, ENTER THE MATH EXPRESSION TO COMPUTE BELOW :"<<"\n";
 	string expLine;
-	cin>>expLine;
+	getline(cin>>ws, expLine);
 
 	auto [parsedNums, parsedOps] = parser(expLine);
 		 
