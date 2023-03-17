@@ -19,15 +19,51 @@ int main() {
 
 	tuple<vector<string>, vector<string>> parser(string&);
 	float calc(vector<string>&, vector<string>&);
+	tuple<vector<string>, vector<int>> subLiner(string&);
 
 	cout<<"WELCOME TO MY CALCULATOR, ENTER THE MATH EXPRESSION TO COMPUTE BELOW :"<<"\n";
 	string expLine;
 	getline(cin>>ws, expLine);
 
-	auto [parsedNums, parsedOps] = parser(expLine);
+	/*auto [parsedNums, parsedOps] = parser(expLine);
 		 
-	cout<<"\nANS: "<<calc(parsedNums, parsedOps)<<"\n";
+	cout<<"\nANS: "<<calc(parsedNums, parsedOps)<<"\n";*/
+	
+	auto [subLines, subLinesPos] = subLiner(expLine);
+	for(string i:subLines) cout<<i<<" ";
+	cout<<"\n";
+	for(int i:subLinesPos) cout<<i<<" ";
+	cout<<"\n";
+	
 
+}
+
+void calcCaller(vector<string>& subLines) {
+	
+}
+
+tuple<vector<string>, vector<int>> subLiner(string& line) {
+	string subLine = "";
+	bool inSubLine = false;
+	vector<string> subLines;
+	vector<int> subLinesPos;
+	
+	for(int i = 0; i < line.length(); i++) {
+		if(line[i] == '(') {
+			inSubLine = true;
+			subLinesPos.push_back(i);
+		}
+		
+		else if(inSubLine && line[i] != ')') subLine+=line[i];
+			
+		else if(line[i] == ')') {
+			subLines.push_back(subLine);
+			inSubLine = false;
+			subLine = "";
+		}
+		
+	}
+	return {subLines, subLinesPos};
 }
 
 tuple<vector<string>, vector<string>> parser(string& line) {
